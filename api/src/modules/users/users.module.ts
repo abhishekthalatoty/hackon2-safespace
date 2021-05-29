@@ -17,6 +17,7 @@ import { UsersService } from './users.service';
       { name: Question.name, schema: QuestionSchema },
     ]),
   ],
+  exports: [UsersService],
   controllers: [UsersController],
   providers: [UsersService, AnswersService, QuestionsService],
 })
