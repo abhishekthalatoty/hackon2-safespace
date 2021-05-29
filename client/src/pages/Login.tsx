@@ -5,11 +5,10 @@ import {
   FormGroup,
   Input,
   InputLabel,
-  Link,
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { ApiHelper } from "../services/ApiHelper";
 
 const Login = withRouter(({ history, updateUser }) => {
@@ -74,7 +73,7 @@ const Login = withRouter(({ history, updateUser }) => {
           }}
         >
           New User?
-          <Link>Signup</Link>
+          <Link to={"/signup"}> Signup</Link>
         </Typography>
         <Button
           style={{ float: "right", marginTop: 10 }}

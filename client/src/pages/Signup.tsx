@@ -10,11 +10,11 @@ import {
   Box,
   Card,
   Button,
-  Link,
   Typography,
 } from "@material-ui/core";
+import { Link, withRouter } from "react-router-dom";
 
-const Signup = () => {
+const Signup = withRouter(({ history }) => {
   return (
     <div
       className="outerbox"
@@ -69,7 +69,7 @@ const Signup = () => {
           }}
         >
           Existing User?
-          <Link>Login</Link>
+          <Link to={"/login"}> Login</Link>
         </Typography>
         <Button
           style={{ float: "right", marginTop: 10 }}
@@ -81,6 +81,6 @@ const Signup = () => {
       </Card>
     </div>
   );
-};
+});
 
 export default Signup;
