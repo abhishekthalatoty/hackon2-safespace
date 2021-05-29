@@ -1,5 +1,6 @@
 import { Card, CardContent, Typography, Grid, Link } from "@material-ui/core";
 import React from "react";
+import { Question } from "../models/Question";
 
 export const QuestionCard = ({ question }) => {
   return (
