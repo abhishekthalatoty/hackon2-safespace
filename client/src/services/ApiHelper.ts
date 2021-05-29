@@ -1,6 +1,8 @@
 import { Answer } from "../models/Answer";
+import Cookies from "js-cookie";
 import axios from "axios";
 import { Question } from "../models/Question";
+import { useRadioGroup } from "@material-ui/core";
 
 export class ApiHelper {
   private static instance: ApiHelper;
@@ -67,30 +69,57 @@ export class ApiHelper {
     },
   ];
 
-  async login(username, password) {
-    fetch("http://localhost:3080/auth/login", {
+  async signup(username, password) {
+    /// implement later
+    const res = await fetch("http://localhost:3080/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       credentials: "include",
       body: JSON.stringify({
-        username: "testuser",
-        password: "password",
+        username,
+        password,
       }),
-    }).then((data) => data.json().then((da) => console.log(da)));
+    });
+  }
+  async logout() {
+    this.user = null;
+    Cookies.remove("user");
+    return { msg: "ok" };
+  }
+
+  async login(username, password) {
+    const res = await fetch("http://localhost:3080/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    });
+
+    const user = await res.json();
+    this.user = user;
+    Cookies.set("user", "user"); //change to user
+    return user;
   }
 
   async getQuestions(): Promise<Question[]> {
     const data = await axios.get(`${this.baseUrl}/questions`);
+    console.log(data);
+
     return data["data"].map((ques) => new Question(ques));
   }
 
   async getAnswersForQuestionId(questionId: string) {
-    // const doc = await axios.get(
-    //   `${this.baseUrl}/questions/${questionId}/answers`
-    // );
-    return this.answers;
+    const doc = await axios.get(
+      `${this.baseUrl}/questions/${questionId}/answers`
+    );
+    return doc["data"];
   }
 
   async submitAnswer(answer, questionId) {
@@ -102,8 +131,18 @@ export class ApiHelper {
       date: new Date(Date.now()),
       questionId,
     };
-    this.answers.push(answerDoc);
+    const doc = await axios.post(`${this.baseUrl}/answers`, answerDoc);
     return;
+  }
+
+  async submitQuestion(question) {
+    const questionDoc = {
+      body: question,
+      userId: this.user.id,
+      userDisplayName: this.user.displayName,
+      date: new Date(Date.now()),
+    };
+    const result = await axios.post(`${this.baseUrl}/questions`, questionDoc);
   }
 
   static getInstance() {

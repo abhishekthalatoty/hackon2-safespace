@@ -15,6 +15,9 @@ export class Question {
   date: Date;
 
   @Prop()
+  userDisplayName: string;
+
+  @Prop()
   tags: [string];
 }
 

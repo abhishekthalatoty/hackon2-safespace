@@ -10,8 +10,9 @@ export class QuestionsController {
   ) {}
 
   @Get()
-  getQuestions() {
-    return this.questionsService.getQuestions();
+  async getQuestions() {
+    let questions = await this.questionsService.getQuestions();
+    return questions;
   }
 
   @Get(':id')

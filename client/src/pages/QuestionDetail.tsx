@@ -5,13 +5,9 @@ import { RightSection } from "../components/RightSection";
 import { Question } from "../models/Question";
 import { ApiHelper } from "../services/ApiHelper";
 
-export const QuestionPage = ({
-  question = new Question({
-    body: "is Mental Health really important?",
-    id: "quid",
-    userDisplayName: "Sathvik",
-  }),
-}) => {
+export const QuestionPage = (props) => {
+  const question = props.location.question;
+
   const [answers, updateAnswers] = useState([]);
   const [answerOpen, toggleAnswer] = useState(false);
   const [answer, changeAnswer] = useState("");
@@ -89,7 +85,7 @@ export const QuestionPage = ({
             </Button>
           )}
         </Grid>
-        <AnswerSection question={question} answers={answers} />
+        <AnswerSection answers={answers} />
       </Grid>
       <Grid item md={3}>
         <RightSection />

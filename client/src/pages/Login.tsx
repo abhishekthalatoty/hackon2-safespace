@@ -1,28 +1,33 @@
-import React from "react";
 import {
+  Button,
+  Card,
   FormControl,
   FormGroup,
-  FormHelperText,
   Input,
   InputLabel,
-  FormLabel,
-  Grid,
-  Box,
-  Card,
-  Button,
-  Link,
   Typography,
 } from "@material-ui/core";
+import React, { useState } from "react";
+import { withRouter, Link } from "react-router-dom";
 import { ApiHelper } from "../services/ApiHelper";
 
-const Login = () => {
+const Login = withRouter(({ history, updateUser }) => {
+  const [username, updateUsername] = useState("");
+  const [password, updatePassword] = useState("");
+
+  console.log(updateUser);
+
   const login = () => {
-    ApiHelper.getInstance().login("gt", "hi");
+    ApiHelper.getInstance()
+      .login(username, password)
+      .then((user) => {
+        if (user) {
+          updateUser(user);
+          history.push("/home");
+        }
+      });
   };
 
-  const test = () => {
-    ApiHelper.getInstance().test();
-  };
   return (
     <div
       className="outerbox"
@@ -40,14 +45,21 @@ const Login = () => {
         </Typography>
         <FormGroup>
           <FormControl style={{ margin: 10 }}>
-            <InputLabel htmlFor="my-input">Email address</InputLabel>
-            <Input id="my-input" aria-describedby="my-helper-text" />
+            <InputLabel htmlFor="my-input">username</InputLabel>
+            <Input
+              id="my-input"
+              aria-describedby="my-helper-text"
+              value={username}
+              onChange={(e) => updateUsername(e.target.value)}
+            />
           </FormControl>
           <FormControl style={{ margin: 10 }}>
             <InputLabel htmlFor="my-input">Password</InputLabel>
             <Input
               type="password"
               id="my-input"
+              value={password}
+              onChange={(e) => updatePassword(e.target.value)}
               aria-describedby="my-helper-text"
             />
           </FormControl>
@@ -61,7 +73,7 @@ const Login = () => {
           }}
         >
           New User?
-          <Link>Signup</Link>
+          <Link to={"/signup"}> Signup</Link>
         </Typography>
         <Button
           style={{ float: "right", marginTop: 10 }}
@@ -71,18 +83,9 @@ const Login = () => {
         >
           Login
         </Button>
-
-        <Button
-          style={{ float: "right", marginTop: 10 }}
-          color="primary"
-          variant="outlined"
-          onClick={test}
-        >
-          test
-        </Button>
       </Card>
     </div>
   );
-};
+});
 
 export default Login;
