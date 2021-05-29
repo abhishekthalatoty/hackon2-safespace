@@ -5,65 +5,8 @@ import { User } from "../models/User";
 
 export class ApiHelper {
   private static instance: ApiHelper;
-  baseUrl = "http://localhost:3080";
+  baseUrl = "https://hackon2-safespace.herokuapp.com";
   user;
-
-  answers = [
-    {
-      id: "qid1",
-      userDisplayName: "prateek",
-      body: " This is answer for every question, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu.This is answer for every question, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu.This is answer for every question, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu.This is answer for every question, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu.",
-    },
-    {
-      id: "qid2",
-      userDisplayName: "Sanjay",
-      body: " This is answer for every question, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu.",
-    },
-    {
-      id: "qid13",
-      userDisplayName: "Abhishek",
-      body: " This is answer for every question, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu.This is answer for every question, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu.This is answer for every question, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu.This is answer for every question, Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu.",
-    },
-  ] as any;
-
-  questions = [
-    {
-      body: "what is ur age 10 years back, plz tell me",
-      questionId: "1",
-      date: "12/05/21",
-      userDisplayName: "prateek",
-    },
-    {
-      body: "Is mental health really required?",
-      questionId: "2",
-      date: "20/05/21",
-      userDisplayName: "Sanjay",
-    },
-    {
-      body: "what is the necesity of having religion?",
-      questionId: "3",
-      date: "28/05/21",
-      userDisplayName: "Abhishek",
-    },
-    {
-      body: "what is ur age 10 years back, plz tell me",
-      questionId: "1",
-      date: "12/05/21",
-      userDisplayName: "prateek",
-    },
-    {
-      body: "Is mental health really required?",
-      questionId: "2",
-      date: "20/05/21",
-      userDisplayName: "Sanjay",
-    },
-    {
-      body: "what is the necesity of having religion?",
-      questionId: "3",
-      date: "28/05/21",
-      userDisplayName: "Abhishek",
-    },
-  ];
 
   async signup(username, displayName, password) {
     const res = await axios.post(`${this.baseUrl}/users`, {
@@ -86,7 +29,7 @@ export class ApiHelper {
   }
 
   async login(username, password) {
-    const res = await fetch("http://localhost:3080/auth/login", {
+    const res = await fetch(`${this.baseUrl}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
