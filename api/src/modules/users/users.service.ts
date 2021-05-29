@@ -17,6 +17,10 @@ export class UsersService {
     return this.userModel.find();
   }
 
+  getUserByUsername(username: string) {
+    return this.userModel.findOne({ username });
+  }
+
   getUserById(id: string) {
     return this.userModel.findById(id);
   }
