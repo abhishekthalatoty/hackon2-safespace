@@ -1,4 +1,12 @@
-import { Controller, Request, Get, Post, UseGuards, Res } from '@nestjs/common';
+import {
+  Controller,
+  Request,
+  Get,
+  Post,
+  UseGuards,
+  Res,
+  Body,
+} from '@nestjs/common';
 import { response } from 'express';
 import { LocalAuthGuard } from './modules/auth/auth-local-auth-guard';
 import { AuthService } from './modules/auth/auth.service';
@@ -13,18 +21,23 @@ export class AppController {
     return { msg: 'hello' };
   }
 
-  @UseGuards(LocalAuthGuard)
+  // @UseGuards(LocalAuthGuard)
   @Post('auth/login')
-  async login(@Request() req, @Res() response) {
-    const data = await this.authService.login(req.user);
-    const userDoc = req.user['_doc'];
-    const userData = {
-      _id: userDoc._id,
-      username: userDoc.username,
-      displayName: userDoc.displayName,
-      joinedDate: userDoc.joinedDate,
-      dob: userDoc.dob,
-    };
-    response.json({ user: userData });
+  async login(@Body() body, @Res() response) {
+    const { username, password } = body;
+    const data = await this.authService.login(username, password);
+    if (data) {
+      const userDoc = data['user'];
+      const userData = {
+        _id: userDoc._id,
+        username: userDoc.username,
+        displayName: userDoc.displayName,
+        joinedDate: userDoc.joinedDate,
+        dob: userDoc.dob,
+      };
+      response.json({ user: userData });
+    } else {
+      response.json({ message: 'Wrong Password / Username' });
+    }
   }
 }

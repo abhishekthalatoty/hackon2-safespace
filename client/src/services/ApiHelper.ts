@@ -1,16 +1,12 @@
-import { Answer } from "../models/Answer";
-import Cookies from "js-cookie";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { Question } from "../models/Question";
-import { useRadioGroup } from "@material-ui/core";
+import { User } from "../models/User";
 
 export class ApiHelper {
   private static instance: ApiHelper;
   baseUrl = "http://localhost:3080";
-  user = {
-    id: "userId",
-    displayName: "SathvikVro",
-  };
+  user;
 
   answers = [
     {
@@ -69,20 +65,20 @@ export class ApiHelper {
     },
   ];
 
-  async signup(username, password) {
-    /// implement later
-    const res = await fetch("http://localhost:3080/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        username,
-        password,
-      }),
+  async signup(username, displayName, password) {
+    const res = await axios.post(`${this.baseUrl}/users`, {
+      username,
+      displayName,
+      password,
     });
+    const response = res.data;
+    if (response && response.user) {
+      this.user = new User(response.user);
+      Cookies.set("user", JSON.stringify(this.user));
+      return this.user;
+    } else return response;
   }
+
   async logout() {
     this.user = null;
     Cookies.remove("user");
@@ -102,15 +98,18 @@ export class ApiHelper {
       }),
     });
 
-    const user = await res.json();
-    this.user = user;
-    Cookies.set("user", "user"); //change to user
-    return user;
+    const response = await res.json();
+
+    if (response && response.user) {
+      this.user = new User(response.user);
+      console.log(this.user);
+      Cookies.set("user", JSON.stringify(this.user)); //change to user
+      return this.user;
+    } else return;
   }
 
   async getQuestions(): Promise<Question[]> {
     const data = await axios.get(`${this.baseUrl}/questions`);
-    console.log(data);
 
     return data["data"].map((ques) => new Question(ques));
   }

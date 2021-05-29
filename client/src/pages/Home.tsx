@@ -12,7 +12,6 @@ export const HomePage = () => {
     ApiHelper.getInstance()
       .getQuestions()
       .then((questions) => {
-        console.log(questions);
         updateQuestions(questions);
       });
   }, []);
