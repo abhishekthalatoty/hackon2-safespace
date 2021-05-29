@@ -6,7 +6,7 @@ export const AnswerCard = ({ answer }) => {
       <Typography
         style={{ textAlign: "left", paddingTop: 10, color: "#565656" }}
       >
-        answered by {answer.displayName}
+        answered by {answer.userDisplayName}
       </Typography>
       <Typography
         style={{ paddingTop: 10, textAlign: "left", paddingBottom: 10 }}
