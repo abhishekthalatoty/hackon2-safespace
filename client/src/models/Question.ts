@@ -4,7 +4,7 @@ export class Question {
     this.body = args.body;
     this.userId = args.userId;
     this.userDisplayName = args.userDisplayName;
-    this.date = new Date(args.date);
+    this.date = new Date(args.date).toDateString();
     this.tags = args.tags;
   }
 

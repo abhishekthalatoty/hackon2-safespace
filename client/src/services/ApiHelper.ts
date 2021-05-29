@@ -79,7 +79,7 @@ export class ApiHelper {
       body: answer,
       userId: user.id,
       userDisplayName: user.displayName,
-      date: new Date(Date.now()),
+      date: new Date(Date.now()).toDateString(),
       questionId,
     };
     this.answers.push(answerDoc);
