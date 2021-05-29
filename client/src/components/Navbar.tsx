@@ -1,23 +1,24 @@
-//import { AppBar,Toolbar, IconButton, Typography, Button} from '@material-ui/core'
-import React from "react";
-import { useState } from "react";
-import { fade, makeStyles } from "@material-ui/core/styles";
-import { AppBar, Grid } from "@material-ui/core";
-import Toolbar from "@material-ui/core/Toolbar";
+import {
+  AppBar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
+import { fade, makeStyles } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
-import { Button } from '@material-ui/core';
-
+import SearchIcon from "@material-ui/icons/Search";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { UserContext } from "../App";
+import { ApiHelper } from "../services/ApiHelper";
 
 const useStyles = makeStyles((theme) => ({
   Button: {
@@ -86,142 +87,122 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function PrimarySearchAppBar() {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+const Navbar = ({ updateUser }) => {
+  const logout = () => {
+    ApiHelper.getInstance()
+      .logout()
+      .then((val) => {
+        if (val.msg == "ok") {
+          updateUser(null);
+        }
+      });
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+  const [questionBox, toggleQuestionBox] = useState(false);
+  const [question, changeQuestion] = useState("");
+
+  const handleClose = () => toggleQuestionBox(false);
+
+  const submitQuestion = () => {
+    ApiHelper.getInstance()
+      .submitQuestion(question)
+      .then(() => {
+        changeQuestion(null);
+        toggleQuestionBox(false);
+      });
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
-  const menuId = "primary-search-account-menu";
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = "primary-search-account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-}
-
-//const classes = useStyles();
-const Navbar = () => {
   const classes = useStyles();
   return (
     <div>
       <AppBar position="fixed">
-        <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Xplore
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ "aria-label": "search" }}
-            />
-          </div>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-          <Button color="inherit">
-            Post
-            </Button>
-            <Button color="inherit">
-              Profile
-            </Button>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              //aria-controls={menuId}
-              aria-haspopup="true"
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              //aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              //onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
+        <UserContext.Consumer>
+          {(user) => {
+            return (
+              <Toolbar>
+                <Button color="inherit" component={Link} to={"/home"}>
+                  <Typography>Safe Space</Typography>
+                </Button>
+                {user && (
+                  <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                      <SearchIcon />
+                    </div>
+
+                    <InputBase
+                      placeholder="Search…"
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                      }}
+                      inputProps={{ "aria-label": "search" }}
+                    />
+                  </div>
+                )}
+                <div className={classes.grow} />
+                <div className={classes.sectionDesktop}>
+                  {user && (
+                    <>
+                      <Button
+                        onClick={() => {
+                          toggleQuestionBox(true);
+                        }}
+                        color="inherit"
+                      >
+                        Post
+                      </Button>
+                      <Button color="inherit">Profile</Button>
+                      <Button onClick={logout} color="inherit">
+                        Log Out
+                      </Button>
+                    </>
+                  )}
+                </div>
+                <Dialog
+                  open={questionBox}
+                  onClose={handleClose}
+                  fullWidth
+                  aria-labelledby="form-dialog-title"
+                >
+                  <DialogTitle id="form-dialog-title">
+                    Ask your Question
+                  </DialogTitle>
+                  <DialogContent>
+                    <TextField
+                      multiline
+                      rows={4}
+                      rowsMax={10}
+                      variant="outlined"
+                      value={question}
+                      onChange={(event) => {
+                        changeQuestion(event.target.value);
+                      }}
+                      fullWidth
+                    />
+                    <DialogActions>
+                      <Button
+                        color="primary"
+                        onClick={() => {
+                          changeQuestion(null);
+                          toggleQuestionBox(false);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        color="primary"
+                        onClick={submitQuestion}
+                      >
+                        Submit
+                      </Button>
+                    </DialogActions>
+                  </DialogContent>
+                </Dialog>
+              </Toolbar>
+            );
+          }}
+        </UserContext.Consumer>
       </AppBar>
     </div>
   );

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { ApiHelper } from "../services/ApiHelper";
 import { AnswerCard } from "./AnswerCard";
 
-const AnswerSection = ({ question, answers }) => {
+const AnswerSection = ({ answers }) => {
   return (
     <div style={{ padding: "20px" }}>
       <div style={{ paddingTop: 30 }}>

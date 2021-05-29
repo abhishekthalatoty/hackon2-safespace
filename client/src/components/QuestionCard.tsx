@@ -1,6 +1,5 @@
-import { Card, CardContent, Typography, Grid, Link } from "@material-ui/core";
-import React from "react";
-import { Question } from "../models/Question";
+import { Card, CardContent, Typography, Grid } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 export const QuestionCard = ({ question }) => {
   return (
@@ -12,25 +11,22 @@ export const QuestionCard = ({ question }) => {
         <Grid container style={{ marginTop: 5 }}>
           <Grid xs={6}>
             <Typography style={{ color: "grey", textAlign: "left" }}>
-              by {question.displayName}
+              by {question.userDisplayName}
             </Typography>
           </Grid>
-
           <Grid xs={6}>
             <Typography style={{ color: "grey", textAlign: "right" }}>
-              {/* {question.date} */}
-              hi
+              {question.date.toDateString()}
             </Typography>
           </Grid>
         </Grid>
         <Typography style={{ textAlign: "left" }}>
-          <Link href="#">View Answer</Link>
+          <Link to={{ pathname: "/answers", question }}>
+            {question.randomAnswer ? "View Answers" : "Answer This"}
+          </Link>
         </Typography>
         <Typography style={{ fontSize: 15, textAlign: "left" }}>
-          This is answer for every question, Lorem ipsum dolor sit amet,
-          consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
-          massa. Cum sociis natoque penatibus et magnis dis parturient montes,
-          nascetur ridiculus mus. Donec qu.
+          {question.randomAnswer}
         </Typography>
       </CardContent>
     </Card>

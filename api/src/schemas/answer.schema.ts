@@ -15,6 +15,9 @@ export class Answer {
   body: string;
 
   @Prop()
+  userDisplayName: string;
+
+  @Prop()
   date: Date;
 }
 

@@ -9,20 +9,24 @@ export class AnswersService {
     @InjectModel(Answer.name) private answerModel: Model<AnswerDocument>,
   ) {}
 
-  getAllAnswers() {
-    return this.answerModel.find();
+  async getAllAnswers() {
+    return this.answerModel.find().exec();
   }
 
-  getAnswersByQuestionId(questionId: string) {
-    return this.answerModel.find({ questionId });
+  async getAnswersByQuestionId(questionId: string) {
+    return this.answerModel.find({ questionId }).exec();
   }
 
-  getAnswerById(id: string) {
-    return this.answerModel.findById(id);
+  async getRandomAnswerForQuestionId(questionId: string) {
+    return this.answerModel.findOne({ questionId }).exec();
   }
 
-  getAnswersByUserId(userId: string) {
-    return this.answerModel.find({ userId });
+  async getAnswerById(id: string) {
+    return this.answerModel.findById(id).exec();
+  }
+
+  async getAnswersByUserId(userId: string) {
+    return this.answerModel.find({ userId }).exec();
   }
 
   addAnswer(answerData: IAnswer) {
