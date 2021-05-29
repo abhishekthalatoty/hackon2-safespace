@@ -24,8 +24,8 @@ const sessions = [
 export const RightSection = () => {
   return (
     <div>
-      {sessions.map((session) => (
-        <EventCard session={session} />
+      {sessions.map((session, idx) => (
+        <EventCard key={idx} session={session} />
       ))}
     </div>
   );

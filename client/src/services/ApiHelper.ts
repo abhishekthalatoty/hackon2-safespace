@@ -1,8 +1,10 @@
 import { Answer } from "../models/Answer";
+import axios from "axios";
 import { Question } from "../models/Question";
 
 export class ApiHelper {
   private static instance: ApiHelper;
+  baseUrl = "http://localhost:3080";
   user = {
     id: "userId",
     displayName: "SathvikVro",
@@ -65,11 +67,29 @@ export class ApiHelper {
     },
   ];
 
+  async login(username, password) {
+    fetch("http://localhost:3080/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        username: "testuser",
+        password: "password",
+      }),
+    }).then((data) => data.json().then((da) => console.log(da)));
+  }
+
   async getQuestions(): Promise<Question[]> {
-    return this.questions.map((ques) => new Question(ques));
+    const data = await axios.get(`${this.baseUrl}/questions`);
+    return data["data"].map((ques) => new Question(ques));
   }
 
   async getAnswersForQuestionId(questionId: string) {
+    // const doc = await axios.get(
+    //   `${this.baseUrl}/questions/${questionId}/answers`
+    // );
     return this.answers;
   }
 

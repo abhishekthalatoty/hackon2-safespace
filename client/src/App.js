@@ -9,12 +9,12 @@ import Profile from './pages/Profile'
 function App() {
   return (
     <div className="App">
-      {/* <Navbar /> */}
+      <Navbar />
       {/* <Login /> */}
       {/* <Signup /> */}
-      {/* <HomePage /> */}
+      <HomePage />
       {/* <QuestionPage /> */}
-      <Profile/>
+      {/* <Profile/> */}
     </div>
   );
 }

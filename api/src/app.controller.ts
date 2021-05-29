@@ -9,22 +9,22 @@ export class AppController {
   constructor(private authService: AuthService) {}
 
   @Get()
-  getHello(): string {
-    return 'Hello';
+  getHello() {
+    return { msg: 'hello' };
   }
 
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req, @Res() response) {
     const data = await this.authService.login(req.user);
-    const token = data['access_token'];
-    response.cookie('jwt', token);
-    response.send('ok');
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+    const userDoc = req.user['_doc'];
+    const userData = {
+      _id: userDoc._id,
+      username: userDoc.username,
+      displayName: userDoc.displayName,
+      joinedDate: userDoc.joinedDate,
+      dob: userDoc.dob,
+    };
+    response.json({ user: userData });
   }
 }

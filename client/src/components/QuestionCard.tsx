@@ -18,7 +18,8 @@ export const QuestionCard = ({ question }) => {
 
           <Grid xs={6}>
             <Typography style={{ color: "grey", textAlign: "right" }}>
-              {question.date}
+              {/* {question.date} */}
+              hi
             </Typography>
           </Grid>
         </Grid>
