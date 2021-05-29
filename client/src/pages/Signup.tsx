@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   FormControl,
   FormGroup,
@@ -13,8 +13,31 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Link, withRouter } from "react-router-dom";
+import { ApiHelper } from "../services/ApiHelper";
 
-const Signup = withRouter(({ history }) => {
+const Signup = withRouter(({ history, updateUser }) => {
+  const [username, updateUsername] = useState("");
+  const [password, updatePassword] = useState("");
+  const [displayName, updateDisplayName] = useState("");
+  const [confirmPassword, updateCPassword] = useState("");
+
+  const signup = () => {
+    if (username && password == confirmPassword) {
+      ApiHelper.getInstance()
+        .signup(username, displayName, password)
+        .then((data) => {
+          console.log("hiii");
+
+          console.log(data);
+
+          if (data && data.id) {
+            updateUser(data);
+            history.push("/home");
+          }
+        });
+    }
+  };
+
   return (
     <div
       className="outerbox"
@@ -33,19 +56,27 @@ const Signup = withRouter(({ history }) => {
         <FormGroup>
           <FormControl style={{ margin: 10 }}>
             <InputLabel htmlFor="my-input">Username</InputLabel>
-            <Input id="my-input" aria-describedby="my-helper-text" />
+            <Input
+              value={username}
+              onChange={(e) => updateUsername(e.target.value)}
+              id="my-input"
+              aria-describedby="my-helper-text"
+            />
           </FormControl>
           <FormControl style={{ margin: 10 }}>
-            <InputLabel htmlFor="my-input">Email address</InputLabel>
+            <InputLabel htmlFor="my-input">Display Name</InputLabel>
             <Input
+              value={displayName}
+              onChange={(e) => updateDisplayName(e.target.value)}
               id="my-input"
-              type="email"
               aria-describedby="my-helper-text"
             />
           </FormControl>
           <FormControl style={{ margin: 10 }}>
             <InputLabel htmlFor="my-input">Password</InputLabel>
             <Input
+              value={password}
+              onChange={(e) => updatePassword(e.target.value)}
               type="password"
               id="my-input"
               aria-describedby="my-helper-text"
@@ -56,6 +87,8 @@ const Signup = withRouter(({ history }) => {
             <Input
               type="password"
               id="my-input"
+              value={confirmPassword}
+              onChange={(e) => updateCPassword(e.target.value)}
               aria-describedby="my-helper-text"
             />
           </FormControl>
@@ -74,6 +107,7 @@ const Signup = withRouter(({ history }) => {
         <Button
           style={{ float: "right", marginTop: 10 }}
           color="primary"
+          onClick={signup}
           variant="outlined"
         >
           Signup

@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import { QuestionPage } from "./pages/QuestionDetail";
 import Signup from "./pages/Signup";
+import { ApiHelper } from "./services/ApiHelper";
 
 export const UserContext = React.createContext({
   user: null,
@@ -22,6 +23,7 @@ function App() {
 
   useEffect(() => {
     if (Cookies.get("user")) {
+      ApiHelper.getInstance().user = JSON.parse(Cookies.get("user"));
       updateUser(Cookies.get("user"));
     }
   }, []);
@@ -48,7 +50,7 @@ function App() {
                 <Login updateUser={updateUser} />
               </Route>
               <Route path="/signup">
-                <Signup />
+                <Signup updateUser={updateUser} />
               </Route>
               <Redirect from="*" to="/login" />
             </Switch>

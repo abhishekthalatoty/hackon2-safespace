@@ -151,7 +151,6 @@ const Navbar = ({ updateUser }) => {
                       >
                         Post
                       </Button>
-                      <Button color="inherit">Profile</Button>
                       <Button onClick={logout} color="inherit">
                         Log Out
                       </Button>

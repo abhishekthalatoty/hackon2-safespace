@@ -7,10 +7,26 @@ import { User, UserDocument } from 'src/schemas/user.schema';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  addUser(userData: IUser) {
+  async addUser(userData) {
     userData.joinedDate = new Date(Date.now());
-    const userDoc = new this.userModel(userData);
-    return userDoc.save();
+    const userDoc = await this.userModel
+      .find({ username: userData.username })
+      .exec();
+    if (userDoc.length == 0) {
+      const userDo = new this.userModel(userData);
+      const newUser = await userDo.save();
+      return {
+        user: {
+          _id: newUser._id,
+          username: newUser.username,
+          displayName: newUser.displayName,
+          dob: newUser.dob,
+          joinedDate: newUser.joinedDate,
+        },
+      };
+    } else {
+      return { message: 'username already exists' };
+    }
   }
 
   getAllUsers() {

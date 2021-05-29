@@ -21,7 +21,7 @@ const Login = withRouter(({ history, updateUser }) => {
     ApiHelper.getInstance()
       .login(username, password)
       .then((user) => {
-        if (user) {
+        if (user && user.id) {
           updateUser(user);
           history.push("/home");
         }
