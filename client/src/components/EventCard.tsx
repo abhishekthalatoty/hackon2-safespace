@@ -59,7 +59,9 @@ export const EventCard = ({ session }) => {
       </CardContent>
       {session.now && (
         <CardActions>
-          <Button size="small">Join</Button>
+          <Button variant="outlined" size="small">
+            Join
+          </Button>
         </CardActions>
       )}
     </Card>

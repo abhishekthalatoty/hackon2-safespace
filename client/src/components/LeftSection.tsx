@@ -18,7 +18,7 @@ const questions = [
     body: "what is the necesity of having religion?",
     questionId: "3",
     date: "28/05/21",
-    ndisplayNameame: "Abhishek",
+    displayName: "Abhishek",
   },
   {
     body: "what is ur age 10 years back, plz tell me",
@@ -40,7 +40,7 @@ const questions = [
   },
 ];
 
-const LeftSection = () => {
+const QuestionList = () => {
   return (
     <div>
       {questions.map((question) => {
@@ -50,4 +50,4 @@ const LeftSection = () => {
   );
 };
 
-export default LeftSection;
+export default QuestionList;

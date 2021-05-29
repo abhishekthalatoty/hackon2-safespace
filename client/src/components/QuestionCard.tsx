@@ -11,7 +11,7 @@ export const QuestionCard = ({ question }) => {
         <Grid container style={{ marginTop: 5 }}>
           <Grid xs={6}>
             <Typography style={{ color: "grey", textAlign: "left" }}>
-              By {question.displayName}
+              by {question.displayName}
             </Typography>
           </Grid>
 

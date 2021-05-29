@@ -6,6 +6,7 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
+import { useState } from "react";
 import { AnswerCard } from "./AnswerCard";
 
 const answers = [
@@ -24,6 +25,8 @@ const answers = [
 ];
 
 const AnswerSection = () => {
+  const [answerOpen, toggleAnswer] = useState(false);
+
   return (
     <div style={{ padding: "20px" }}>
       <Typography variant="h4" style={{ textAlign: "left" }}>
@@ -31,9 +34,37 @@ const AnswerSection = () => {
       </Typography>
       <br />
 
-      <Button style={{ float: "right" }}>Answer</Button>
+      {answerOpen && (
+        <TextField
+          placeholder="Enter Your Answer Here"
+          fullWidth
+          rows={5}
+          rowsMax={10}
+          variant="outlined"
+          multiline
+        />
+      )}
 
-      <TextField placeholder="Enter Your Answer Here" />
+      <Button
+        style={{ float: "right", marginTop: "10px" }}
+        color="primary"
+        variant="outlined"
+        onClick={() => toggleAnswer(!answerOpen)}
+      >
+        {answerOpen ? "Sumbit" : "Answer"}
+      </Button>
+
+      {answerOpen && (
+        <Button
+          style={{ float: "right", marginTop: "10px", marginRight: "30px" }}
+          color={answerOpen ? "secondary" : "primary"}
+          variant="outlined"
+          onClick={() => toggleAnswer(!answerOpen)}
+        >
+          Cancel
+        </Button>
+      )}
+
       <div style={{ paddingTop: 30 }}>
         {answers.map((answer) => {
           return <AnswerCard answer={answer} />;
