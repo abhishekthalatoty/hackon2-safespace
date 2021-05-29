@@ -1,5 +1,6 @@
 //import { AppBar,Toolbar, IconButton, Typography, Button} from '@material-ui/core'
 import React from "react";
+import { useState } from "react";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import { AppBar, Grid } from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -15,8 +16,8 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
-//import { Button } from '@material-ui/core';
-import { Button } from "react-bootstrap";
+import { Button } from '@material-ui/core';
+
 
 const useStyles = makeStyles((theme) => ({
   Button: {
@@ -193,7 +194,10 @@ const Navbar = () => {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Button style={{ backgroundColor: "white", color: "black" }}>
+          <Button color="inherit">
+            Post
+            </Button>
+            <Button color="inherit">
               Profile
             </Button>
             <IconButton
@@ -201,7 +205,6 @@ const Navbar = () => {
               aria-label="account of current user"
               //aria-controls={menuId}
               aria-haspopup="true"
-              //onClick={handleProfileMenuOpen}
               color="inherit"
             >
               <AccountCircle />

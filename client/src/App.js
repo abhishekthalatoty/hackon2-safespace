@@ -1,14 +1,20 @@
 import Navbar from './components/Navbar';
-import {HomePage} from './pages/Home';
-import {QuestionPage} from './pages/QuestionDetail'
+import { HomePage } from './pages/Home';
+import { QuestionPage } from './pages/QuestionDetail'
 import AnswerSection from './components/AnswerSection';
+import Login from './pages/Login'
+import Signup from './pages/Signup'
+import Profile from './pages/Profile'
 
 function App() {
   return (
     <div className="App">
-      <Navbar/>
+      {/* <Navbar /> */}
+      {/* <Login /> */}
+      {/* <Signup /> */}
       {/* <HomePage /> */}
-      <QuestionPage />
+      {/* <QuestionPage /> */}
+      <Profile/>
     </div>
   );
 }
