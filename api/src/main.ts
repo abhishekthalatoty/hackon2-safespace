@@ -6,7 +6,7 @@ async function bootstrap() {
   app.enableCors({
     credentials: true,
     methods: ['GET', 'POST'],
-    origin: 'https://safespace-4d015.web.app/',
+    origin: '*',
   });
   await app.listen(process.env.PORT || 3080);
 }
