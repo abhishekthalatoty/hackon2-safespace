@@ -7,6 +7,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const EventCard = ({ session }) => {
+export const EventCard = withRouter(({ history, session }) => {
   const classes = useStyles();
 
   return (
@@ -59,11 +60,15 @@ export const EventCard = ({ session }) => {
       </CardContent>
       {session.now && (
         <CardActions>
-          <Button variant="outlined" size="small">
+          <Button
+            variant="outlined"
+            onClick={() => history.push("/chat")}
+            size="small"
+          >
             Join
           </Button>
         </CardActions>
       )}
     </Card>
   );
-};
+});

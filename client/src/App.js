@@ -13,7 +13,7 @@ import Profile from "./pages/Profile";
 import { QuestionPage } from "./pages/QuestionDetail";
 import Signup from "./pages/Signup";
 import { ApiHelper } from "./services/ApiHelper";
-import ChatBubble from "./pages/ChatBubble";
+import ChatRoom from "./pages/ChatRoom";
 
 export const UserContext = React.createContext({
   user: null,
@@ -40,6 +40,7 @@ function App() {
                 <HomePage />
               </Route>
               <Route path="/answers" component={QuestionPage} />
+              <Route path="/chat" component={ChatRoom} />
               <Route path="/profile">
                 <Profile />
               </Route>
