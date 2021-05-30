@@ -1,44 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TextField, Grid } from "@material-ui/core";
 import ChatBubble from "./ChatBubble";
 import { CardContent } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 import { Card } from "@material-ui/core";
 import { CardActions } from "@material-ui/core";
-
-const uId = "2";
+import { ApiHelper } from "../services/ApiHelper";
 
 var list = [
-  {
-    userName: "Prateek",
-    userId: "1",
-    messageId: "1",
-    body: "hey what are you doing man!",
-  },
-  {
-    userName: "Prateek",
-    userId: "1",
-    messageId: "1",
-    body: "hey what are you doing man!",
-  },
-  {
-    userName: "Prateek",
-    userId: "1",
-    messageId: "1",
-    body: "hey what are you doing man!",
-  },
-  {
-    userName: "Prateek",
-    userId: "1",
-    messageId: "1",
-    body: "hey what are you doing man!",
-  },
-  {
-    userName: "Prateek",
-    userId: "1",
-    messageId: "1",
-    body: "hey what are you doing man!",
-  },
   {
     userName: "Prateek",
     userId: "1",
@@ -108,6 +77,26 @@ var list = [
 ];
 
 const ChatRoom = () => {
+  const [message, updateMessage] = useState("");
+  const uId = ApiHelper.getInstance().user.id;
+
+  useEffect(() => {
+    console.log("hi");
+  }, [list]);
+
+  const handleKey = (e) => {
+    if (e.keyCode == 13) {
+      list.push({
+        userName: ApiHelper.getInstance().user.username,
+        userId: ApiHelper.getInstance().user.id,
+        messageId: list.length.toString(),
+        body: message,
+      });
+      updateMessage("");
+      console.log(list);
+    }
+  };
+
   return (
     <div style={{ margin: "0px", paddingBottom: 53 }}>
       {list.map((value, index) => {
@@ -136,7 +125,7 @@ const ChatRoom = () => {
                     You
                   </Typography>
                   <CardContent style={{ padding: 0 }}>
-                    <Typography>Hi this is prateek! how r u?</Typography>
+                    <Typography>{value.body}</Typography>
                   </CardContent>
                   <CardActions style={{ padding: 0 }}>
                     <Typography style={{ color: "grey" }}>12:02pm</Typography>
@@ -161,10 +150,10 @@ const ChatRoom = () => {
                   }}
                 >
                   <Typography style={{ color: "grey" }}>
-                    Prateek Singamsetty
+                    {value.userName}
                   </Typography>
                   <CardContent style={{ padding: 0 }}>
-                    <Typography>Hi this is prateek! how r u?</Typography>
+                    <Typography> {value.body}</Typography>
                   </CardContent>
                   <CardActions style={{ padding: 0 }}>
                     <Typography style={{ color: "grey", marginLeft: 330 }}>
@@ -184,6 +173,11 @@ const ChatRoom = () => {
           width: "90vw",
           backgroundColor: "white",
         }}
+        onChange={(e) => {
+          updateMessage(e.target.value);
+        }}
+        onKeyDown={handleKey}
+        value={message}
         id="outlined-basic"
         placeholder="Enter message"
         variant="outlined"

@@ -45,7 +45,7 @@ export const EventCard = withRouter(({ history, session }) => {
           color="textSecondary"
           gutterBottom
         >
-          9:00 AM - 10:00 AM
+          {session.now ? "Current Event" : "Upcoming"}
         </Typography>
         <Typography className={classes.topic} variant="h5" component="h2">
           {session["topic"]}
