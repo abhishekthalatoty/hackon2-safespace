@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import { QuestionPage } from "./pages/QuestionDetail";
 import Signup from "./pages/Signup";
 import { ApiHelper } from "./services/ApiHelper";
+import ChatBubble from "./pages/ChatBubble";
 
 export const UserContext = React.createContext({
   user: null,
@@ -24,7 +25,7 @@ function App() {
   useEffect(() => {
     if (Cookies.get("user")) {
       ApiHelper.getInstance().user = JSON.parse(Cookies.get("user"));
-      updateUser(Cookies.get("user"));
+      updateUser(ApiHelper.getInstance().user);
     }
   }, []);
 

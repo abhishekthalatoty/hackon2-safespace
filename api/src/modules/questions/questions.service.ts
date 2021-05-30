@@ -25,6 +25,7 @@ export class QuestionsService {
           userId: ques.userId,
           randomAnswer: randomAnswer?.body.substring(0, 300),
           date: ques.date,
+          tags: ques.tags,
         };
       }),
     );

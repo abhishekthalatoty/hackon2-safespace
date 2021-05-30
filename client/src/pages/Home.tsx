@@ -1,5 +1,6 @@
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { UserContext } from "../App";
 import QuestionList from "../components/LeftSection";
 import { RightSection } from "../components/RightSection";
 import { Question } from "../models/Question";
@@ -12,6 +13,8 @@ export const HomePage = () => {
     ApiHelper.getInstance()
       .getQuestions()
       .then((questions) => {
+        console.log("jo");
+        console.log(questions);
         updateQuestions(questions);
       });
   }, []);
@@ -19,6 +22,15 @@ export const HomePage = () => {
   return (
     <Grid container style={{ marginTop: 80 }} spacing={2}>
       <Grid item md={9} style={{ paddingLeft: 20 }}>
+        <UserContext.Consumer>
+          {(user) => {
+            return (
+              <Typography variant="h4">
+                Hello {(user as any).displayName}
+              </Typography>
+            );
+          }}
+        </UserContext.Consumer>
         <QuestionList questions={questions} />
       </Grid>
       <Grid item md={3}>

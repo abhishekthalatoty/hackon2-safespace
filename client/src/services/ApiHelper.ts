@@ -34,7 +34,6 @@ export class ApiHelper {
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include",
       body: JSON.stringify({
         username,
         password,
@@ -77,13 +76,14 @@ export class ApiHelper {
     return;
   }
 
-  async submitQuestion(question) {
+  async submitQuestion(question, tags) {
     const questionDoc = {
       body: question,
       userId: this.user.id,
       userDisplayName: this.user.displayName,
       date: new Date(Date.now()),
-    };
+    } as any;
+    if (tags.length > 0) questionDoc.tags = tags;
     const result = await axios.post(`${this.baseUrl}/questions`, questionDoc);
   }
 

@@ -13,6 +13,15 @@ export const QuestionCard = ({ question }) => {
             <Typography style={{ color: "grey", textAlign: "left" }}>
               by {question.userDisplayName}
             </Typography>
+            {question.tags?.length > 0 && (
+              <Typography style={{ color: "grey", textAlign: "left" }}>
+                tags:
+                {question.tags.map((tag, index) => {
+                  if (index == question.tags.length - 1) return tag;
+                  else return `${tag}, `;
+                })}
+              </Typography>
+            )}
           </Grid>
           <Grid xs={6}>
             <Typography style={{ color: "grey", textAlign: "right" }}>

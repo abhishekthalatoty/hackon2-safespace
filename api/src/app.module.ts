@@ -9,7 +9,9 @@ import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://dbUser:dbPassword@cluster0.23l9x.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'),
+    MongooseModule.forRoot(
+      'mongodb+srv://dbUser:dbPassword@cluster0.23l9x.mongodb.net/safespace?retryWrites=true&w=majority',
+    ),
     UsersModule,
     QuestionsModule,
     AnswersModule,

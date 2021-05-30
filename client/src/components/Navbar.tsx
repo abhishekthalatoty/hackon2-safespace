@@ -1,10 +1,13 @@
 import {
   AppBar,
   Button,
+  Checkbox,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
+  FormGroup,
   TextField,
 } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
@@ -98,6 +101,17 @@ const Navbar = ({ updateUser }) => {
       });
   };
 
+  let tags = [];
+
+  const handleChange = (event) => {
+    if (event.target.checked) {
+      tags.push(event.target.value);
+    } else {
+      tags = tags.filter((t) => t.value != event.target.value);
+    }
+    console.log(tags);
+  };
+
   const [questionBox, toggleQuestionBox] = useState(false);
   const [question, changeQuestion] = useState("");
 
@@ -105,7 +119,7 @@ const Navbar = ({ updateUser }) => {
 
   const submitQuestion = () => {
     ApiHelper.getInstance()
-      .submitQuestion(question)
+      .submitQuestion(question, tags)
       .then(() => {
         changeQuestion(null);
         toggleQuestionBox(false);
@@ -178,6 +192,52 @@ const Navbar = ({ updateUser }) => {
                       }}
                       fullWidth
                     />
+                    <Typography style={{ marginTop: "10px" }}>
+                      Tags :
+                    </Typography>
+                    <FormGroup row>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"religion"}
+                            onChange={handleChange}
+                            name="religion"
+                          />
+                        }
+                        label="religion"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"race"}
+                            onChange={handleChange}
+                            name="race"
+                          />
+                        }
+                        label="race"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"gender"}
+                            name="gender"
+                            onChange={handleChange}
+                          />
+                        }
+                        label="gender"
+                      />
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            value={"nation"}
+                            onChange={handleChange}
+                            name="nation"
+                          />
+                        }
+                        label="nation"
+                      />
+                    </FormGroup>
+
                     <DialogActions>
                       <Button
                         color="primary"
